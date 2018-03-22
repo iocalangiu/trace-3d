@@ -36,7 +36,6 @@ axis equal
 axis off
 scatter(seed_y,seed_x,'r.')
 hold off
-disp('__Seed-point selection terminated with no errors__')
 
 
 

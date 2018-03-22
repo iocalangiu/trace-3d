@@ -9,8 +9,7 @@ new_seedsy = [];
 new_seedsz = [];
 maxI = max(stack(:));
 
-disp(['We are dealing with ' num2str(length(new_seed_x)) ' seeds.'])
-for c = 1:length(new_seed_x)
+for c = 1: numel(new_seed_x)
     
     tmp = stack(new_seed_x(c),new_seed_y(c),:);
     [~,idx] = max(tmp);

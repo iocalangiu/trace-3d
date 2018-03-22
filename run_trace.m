@@ -1,9 +1,11 @@
 
 
-%% Imaging file to trace
+%% Info to fill in: Imaging file to trace
 
 fileName = 'jhs 18072015 - 17 days - slide #4-3 ipsi.lif - slide 4-3 CNIC 4 cells 0.25 0.50 - 2.tif';
 folderName = 'experiment1';
+
+pathSaveTracingResults = 'E:\imperial_code\trace-3d\trunk\resultsTracing';
 
 pathSaveTracingResults_mainFolder = fullfile(pathSaveTracingResults, folderName);
 pathSaveTracing_resultsFolder = fullfile(pathSaveTracingResults, folderName, 'results');

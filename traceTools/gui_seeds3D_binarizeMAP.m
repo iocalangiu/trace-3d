@@ -71,7 +71,7 @@ end
 
 %====================== KEY PART RIGHT HERE!!!! ===================================================
 % Threshold with starting range startingLowThreshold to startingHighThreshold.
-[lowThreshold, highThreshold] = threshold(startingLowThreshold, startingHighThreshold, imageToThreshold)
+[lowThreshold, highThreshold] = threshold(startingLowThreshold, startingHighThreshold, imageToThreshold);
 %====================== KEY PART RIGHT HERE!!!! ===================================================
 
 

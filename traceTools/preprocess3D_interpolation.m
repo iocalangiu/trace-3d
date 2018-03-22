@@ -8,11 +8,9 @@ function [im_cut_interp] = preprocess3D_interpolation(im_cut_sc,resolution)
 %Output: im_cut_interp - new 3-D volume
 %-------------------------------------------------------------------------
 %Author: Ioana Calangiu, Imperial College London, 2015
-disp('Interpolation')
-disp('-----------------------------------------------------------')
+
 N = size(im_cut_sc,3);
 for i = 1:N
-    disp(['Applying interpolation on slice ' num2str(i) '.'])
     F=griddedInterpolant(im_cut_sc(:,:,i));
     image=im_cut_sc(:,:,i);
     x=linspace(1,size(image,1),size(image,1)/resolution);

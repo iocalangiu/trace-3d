@@ -10,10 +10,6 @@ function im_cut_scale = preprocess3D_scaling(im_cut)
 %Author: Ioana Calangiu, Imperial College London, 2015
 %----------------------------------------------------------------------
 % Updated 26.11 Ioana Calangiu
-
-disp('Scaling')
-disp('-----------------------------------------------------------')
-
 len_y = size(im_cut,2);
 len_x = size(im_cut,1);
 maxes = [];
@@ -22,9 +18,9 @@ for i = 1:size(im_cut,3)
     m = im_cut(:,:,i); %for demo, replace with your own matrix
     coldist = size(m, 2) / len_y * ones(1, len_y); %split the number of columns by 40 and replicate 40 times.
     splitmats = mat2cell(m, len_x, coldist);
-    disp(['Searching for min and max on slice ' num2str(i) '.'])
-    for j = 1:length(splitmats)
-       f1 = splitmats{j};
+    
+    for jj = 1:length(splitmats)
+       f1 = splitmats{jj};
        maxes = [maxes max(f1(:))];
        mines = [mines min(f1(:))]; 
     end
@@ -48,14 +44,15 @@ for i = 1:size(im_cut,3)
     nchunks = length(splitmats);
     min_current_slice = min(m(:));
     max_current_slice = max(m(:));
-    disp(['Scaling slice ' num2str(i) '.'])
+   
     pause(1)
-    for j = 1:nchunks
-        f = splitmats{j};
+    
+    for jj = 1:nchunks
+        f = splitmats{jj};
         a = (f -  min_current_slice)*(max_final-min_final)/(max_current_slice -  min_current_slice) + min_final;
         check = isnan(a);
         a(check) = 0;
-        im_cut_scale(1:len_x,j,i) = a;
+        im_cut_scale(1:len_x,jj,i) = a;
     end
 end
 
