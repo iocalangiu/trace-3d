@@ -1,12 +1,12 @@
 %% Info to fill in: Imaging file to trace
 
-fileName = 'jhs 18072015 - 17 days - slide #4-3 ipsi.lif - slide 4-3 CNIC 4 cells 0.25 0.50 - 2.tif';
+fileName = 'testSlice.tif';
 folderName = 'experiment1';
 
 pathSaveTracingResults = 'E:\imperial_code\trace-3d\trunk\resultsTracing';
 pathInputData = 'E:\imperial_code\trace-3d\trunk\InputData';
 
-cropImage = false;
+cropImage = true;
 
 %% Create folders to save results
 

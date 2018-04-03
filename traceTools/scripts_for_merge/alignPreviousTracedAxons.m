@@ -18,7 +18,6 @@ endz2 = axons(j).directionz(end);
 [e_d2] = pdist2([endx2 startx1],[endy2 starty1]);
 
 if e_d1>e_d2
-    disp('Fliplr')
     axons(i).directionx = fliplr(axons(i).directionx);
     axons(i).directiony = fliplr(axons(i).directiony);
     axons(i).directionz = fliplr(axons(i).directionz);

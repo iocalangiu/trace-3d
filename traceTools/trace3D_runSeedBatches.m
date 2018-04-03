@@ -24,6 +24,10 @@ unprocessedTracedAxons = struct; % / not used
 
 for iter = 1: 100
     
+    if isempty(seedsx)
+        continue;
+    end
+    
     x = seedsx(1);
     y = seedsy(1);
     z = seedsz(1);
@@ -40,26 +44,27 @@ for iter = 1: 100
     inputData.dead_seedsx = dead_seed_x;
     inputData.dead_seedsy = dead_seed_y;
     inputData.dead_seedsz = dead_seed_z;
-     
+    
     % >> TRACE << ---------------------------------------------------------
     [outputData] = trace3D_core(inputData);
-
+    
     % local structure: rawNeurontrace, contains the newly traced
-    % axons, and goes through the postprocessing pipeline: 
+    % axons, and goes through the postprocessing pipeline:
     clear rawNeurontrace
     rawNeurontrace.vxx = outputData.new_vxx;
     rawNeurontrace.vyy = outputData.new_vyy;
     rawNeurontrace.vzz = outputData.new_vzz;
     rawNeurontrace.seedsid = seeds_id(iter);
     rawNeurontrace.starting_points = [x y z];
-
+    
     % ->>> new traces <<<-
     rawNeurontrace.directionx = outputData.new_trace_x;
     rawNeurontrace.directiony = outputData.new_trace_y;
     rawNeurontrace.directionz = outputData.new_trace_z;
     
     % >> FILTER VALID TRACES << -------------------------------------------
-    if ~isempty(rawNeurontrace.vxx) && ~isempty(rawNeurontrace.directionx) && length(rawNeurontrace.vxx) == length(rawNeurontrace.directionx)
+    if ~isempty(rawNeurontrace.vxx) && ~isempty(rawNeurontrace.directionx) && ...
+            (numel(rawNeurontrace.vxx) == numel(rawNeurontrace.directionx))
         
         %/ Delete duplcate coordinates
         clear axons
@@ -67,69 +72,69 @@ for iter = 1: 100
         
         if numel(axon_noDuplicates.directionx)>4
             
-        %/ Interpolate and smooth
-        clear processedNeurontrace
-        [processedNeurontrace] = trace3D_interpolationCoordinates(axon_noDuplicates); 
-        
-        %/ Axons unmerged
-        index_raw = size(unprocessedTracedAxons, 2);
-        unprocessedTracedAxons(1, index_raw+1).directionx = processedNeurontrace.directionx;
-        unprocessedTracedAxons(1, index_raw+1).directiony = processedNeurontrace.directiony;
-        unprocessedTracedAxons(1, index_raw+1).directionz = processedNeurontrace.directionz;
-        
-        clear pair_x
-        [pair_x] = matchCurrentAxonToPreviousTracedAxons(tracedAxons, processedNeurontrace);
-
-        if ~isempty(pair_x)
-            index_size = size(tracedAxons,2);
+            %/ Interpolate and smooth
+            clear processedNeurontrace
+            [processedNeurontrace] = trace3D_interpolationCoordinates(axon_noDuplicates);
             
-            tracedAxons(1, index_size+1).directionx = processedNeurontrace.directionx;
-            tracedAxons(1, index_size+1).directiony = processedNeurontrace.directiony;
-            tracedAxons(1, index_size+1).directionz = processedNeurontrace.directionz;
+            %/ Axons unmerged
+            index_raw = size(unprocessedTracedAxons, 2);
+            unprocessedTracedAxons(1, index_raw+1).directionx = processedNeurontrace.directionx;
+            unprocessedTracedAxons(1, index_raw+1).directiony = processedNeurontrace.directiony;
+            unprocessedTracedAxons(1, index_raw+1).directionz = processedNeurontrace.directionz;
             
-            [tracedAxons] = alignPreviousTracedAxons(tracedAxons, pair_x, index_size+1);
-            [mergedTracedAxons] = nanmergev3(tracedAxons, pair_x, index_size+1);
+            clear pair_x
+            [pair_x] = matchCurrentAxonToPreviousTracedAxons(tracedAxons, processedNeurontrace);
             
-        else
-            index_size = size(tracedAxons,2);
-            tracedAxons(1,index_size+1).directionx = processedNeurontrace.directionx;
-            tracedAxons(1,index_size+1).directiony = processedNeurontrace.directiony;
-            tracedAxons(1,index_size+1).directionz = processedNeurontrace.directionz; 
-            mergedTracedAxons = tracedAxons;
-        end
-
-        [split_mergedTracedAxons] = trace3D_splitDifferentAzimuth(mergedTracedAxons);
-
-        finalTracedAxons = struct;
-        count = 1;
-        for ij = 1: numel(split_mergedTracedAxons)
-            if numel(split_mergedTracedAxons(ij).directionx)>2
-                finalTracedAxons(count).directionx = split_mergedTracedAxons(ij).directionx;
-                finalTracedAxons(count).directiony = split_mergedTracedAxons(ij).directiony;
-                finalTracedAxons(count).directionz = split_mergedTracedAxons(ij).directionz;
-                count = count+1;
+            if ~isempty(pair_x)
+                index_size = size(tracedAxons,2);
+                
+                tracedAxons(1, index_size+1).directionx = processedNeurontrace.directionx;
+                tracedAxons(1, index_size+1).directiony = processedNeurontrace.directiony;
+                tracedAxons(1, index_size+1).directionz = processedNeurontrace.directionz;
+                
+                [tracedAxons] = alignPreviousTracedAxons(tracedAxons, pair_x, index_size+1);
+                [mergedTracedAxons] = nanmergev3(tracedAxons, pair_x, index_size+1);
+                
+            else
+                index_size = size(tracedAxons,2);
+                tracedAxons(1,index_size+1).directionx = processedNeurontrace.directionx;
+                tracedAxons(1,index_size+1).directiony = processedNeurontrace.directiony;
+                tracedAxons(1,index_size+1).directionz = processedNeurontrace.directionz;
+                mergedTracedAxons = tracedAxons;
             end
+            
+            [split_mergedTracedAxons] = trace3D_splitDifferentAzimuth(mergedTracedAxons);
+            
+            finalTracedAxons = struct;
+            count = 1;
+            for ij = 1: numel(split_mergedTracedAxons)
+                if numel(split_mergedTracedAxons(ij).directionx)>2
+                    finalTracedAxons(count).directionx = split_mergedTracedAxons(ij).directionx;
+                    finalTracedAxons(count).directiony = split_mergedTracedAxons(ij).directiony;
+                    finalTracedAxons(count).directionz = split_mergedTracedAxons(ij).directionz;
+                    count = count+1;
+                end
+            end
+            
+            tracedAxons = finalTracedAxons;
+            clear finalTracedAxons
+            
         end
         
-        tracedAxons = finalTracedAxons;
-        clear finalTracedAxons
+        seedsx = outputData.seedsx;
+        seedsy = outputData.seedsy;
+        seedsz = outputData.seedsz;
+        eigVectors = outputData.eigen_vectors;
+        dead_seed_x = outputData.dead_seedsx;
+        dead_seed_y = outputData.dead_seedsy;
+        dead_seed_z = outputData.dead_seedsz;
         
+        if isempty(seedsx)
+            break;
         end
-           
-    seedsx = outputData.seedsx;
-    seedsy = outputData.seedsy;
-    seedsz = outputData.seedsz;
-    eigVectors = outputData.eigen_vectors;
-    dead_seed_x = outputData.dead_seedsx;
-    dead_seed_y = outputData.dead_seedsy;
-    dead_seed_z = outputData.dead_seedsz;
         
-    if isempty(seedsx)
-        break;
     end
     
-    end
-
 end
 
 out_seedsCell{1} = seedsx;
