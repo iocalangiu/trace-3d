@@ -1,5 +1,5 @@
 # trace-3d
-Code repository for 'Combining mGRASP and Optogenetics Enables High-Resolution Functional Mapping of Descending Cortical Projections', Cell Reports 2018
+Code repository for [Combining mGRASP and Optogenetics Enables High-Resolution Functional Mapping of Descending Cortical Projections] (https://pubmed.ncbi.nlm.nih.gov/30044974/), Cell Reports 2018
 
 An (almost) user-free algorithm written in Matlab, that precisely localizes neurites across cortical layers in 3-D data sets.
 
