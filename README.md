@@ -3,7 +3,7 @@ Code repository for [Combining mGRASP and Optogenetics Enables High-Resolution F
 
 An (almost) user-free algorithm written in Matlab, that precisely localizes neurites across cortical layers in 3-D data sets.
 
-![trace3d](https://github.com/iocalangiu/trace-3d/assets/25250243/de05cace-559a-4f52-83a4-33203452d533)
+![trace3d](https://github.com/iocalangiu/trace-3d/assets/25250243/0844cbf2-c6d4-4a7c-a2d1-7b33dba6808f)
 
 We used the algorithm to measure the mGRASP presynaptic signal (grey) and compare it to the 3-D reconstructed postsynaptic neuron (red).
 
