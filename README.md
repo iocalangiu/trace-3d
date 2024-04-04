@@ -5,6 +5,6 @@ An (almost) user-free algorithm written in Matlab, that precisely localizes neur
 
 ![trace3d](https://github.com/iocalangiu/trace-3d/assets/25250243/de05cace-559a-4f52-83a4-33203452d533)
 
-
+The algorithm was used in the paper to measure the mGRASP presynaptic signal (grey).
 
 <img width="461" alt="Screenshot 2024-02-26 at 13 18 46" src="https://github.com/iocalangiu/trace-3d/assets/25250243/4e17209c-f5ff-49ba-b35d-87be4a4a77d8">
